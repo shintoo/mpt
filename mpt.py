@@ -96,7 +96,7 @@ def make_label(state, atts):
     label = ""
     for attr in atts:
         if (a := getattr(state, attr, None)):
-            label = f"{label} {a:6.6}"
+            label = f"{label} {a:6}"
             if attr == "velocity":
                 label = f"{label}kts"
             if attr == "baro_altitude":
