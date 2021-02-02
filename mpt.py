@@ -99,7 +99,7 @@ def make_label(state, atts):
             label = f"{label} {a:6}"
             if attr == "velocity":
                 label = f"{label}kts"
-            if attr == "baro_altitude":
+            if attr == "geo_altitude":
                 label = f"{label}ft"
         else:
             label = f"{label} {'UNK':4}"
@@ -158,8 +158,21 @@ if __name__ == "__main__":
     you = None # Put your coords here to display X where you are
     display = (0, 60, 0, 20)
 
+    username=None
+    password=None
+
+    import sys
+    if "-u" in sys.argv:
+        username=sys.argv[sys.argv.index("-u")+1]
+        password=sys.argv[sys.argv.index("-p")+1]
+
     print("Connecting to OpenSky API")
-    api = OpenSkyApi()
+
+    api = None
+    if username:
+      api = OpenSkyApi(username, password)
+    else:
+      api = OpenSkyApi()
     
     use_db = True
 
@@ -192,14 +205,15 @@ if __name__ == "__main__":
                         for k, v in detail.items():
                             state.__setattr__(k, v) 
 
+            # Override getters so values stay
             state.__setattr__("cardinal_heading", deg_to_cardinal(state.heading))
-            state.velocity = int(state.velocity * 1.944)
-            state.baro_altitude = int(state.baro_altitude)
+            state.__setattr__("velocity", int(state.velocity * 1.944))
+            state.__setattr__("geo_altitude",  int(state.geo_altitude * 3.2808))
 
 
             attributes = [
                 "callsign",
-                "baro_altitude",
+                "geo_altitude",
                 "cardinal_heading",
             ]
 
