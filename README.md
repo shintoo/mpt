@@ -4,7 +4,9 @@
 
 ##### usage
 
-`mpt [-c/--config config] [-r/--region lamin lamax lomin lomax] [-s/--size xmin xmax ymin ymax] [-d/--details]`
+`python mpt.py [-u openskyusername -p openskypassword]`
+
+An OpenSky account is *not* needed, but having one will improve the update rate from 10 seconds to 5 seconds.
 
 ##### dependencies
 
