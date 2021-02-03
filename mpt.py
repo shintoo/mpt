@@ -204,10 +204,11 @@ if __name__ == "__main__":
                     if detail:
                         for k, v in detail.items():
                             state.__setattr__(k, v) 
-                            # Override getters so values stay
-                            state.__setattr__("cardinal_heading", deg_to_cardinal(state.heading))
-                            state.__setattr__("velocity", int(state.velocity * 1.944))
-                            state.__setattr__("geo_altitude",  int(state.geo_altitude * 3.2808))
+
+                    # Override getters so values stay
+                    state.__setattr__("cardinal_heading", deg_to_cardinal(state.heading))
+                    state.__setattr__("velocity", int(state.velocity * 1.944))
+                    state.__setattr__("geo_altitude",  int(state.geo_altitude * 3.2808))
 
             attributes = [
                 "callsign",
