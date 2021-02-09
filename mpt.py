@@ -153,8 +153,14 @@ def deg_to_cardinal(deg):
             return bounds[i][1]
 
 if __name__ == "__main__":
-    bbox_world=(28.386568,28.671913,-81.506882,-81.112747) # lamin, lamax, lomin, lomax
     airports=[((28.4311, -81.3083), "MCO"), ((28.5462, -81.3322), "ORL")]
+
+    #default lat/long
+    long_start = -81.506882
+    long_end   = -81.112747
+    lat_start  = 28.386568
+    lat_end    = 28.671913
+
     you = None # Put your coords here to display X where you are
     display = (0, 60, 0, 20)
 
@@ -165,7 +171,16 @@ if __name__ == "__main__":
     if "-u" in sys.argv:
         username=sys.argv[sys.argv.index("-u")+1]
         password=sys.argv[sys.argv.index("-p")+1]
+    if "-x" in sys.argv:
+        long_start=float(sys.argv[sys.argv.index("-x")+1])
+        long_end=float(sys.argv[sys.argv.index("-x")+2])
+    if "-y" in sys.argv:
+        lat_start=float(sys.argv[sys.argv.index("-y")+1])
+        lat_end=float(sys.argv[sys.argv.index("-y")+2])
+    if "-s" in sys.argv:
+        you = (float(sys.argv[sys.argv.index("-s")+1]), float(sys.argv[sys.argv.index("-s")+2]))
 
+    bbox_world=(lat_start, lat_end, long_start, long_end) # lamin, lamax, lomin, lomax
     print("Connecting to OpenSky API")
 
     api = None
