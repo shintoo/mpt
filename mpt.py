@@ -168,6 +168,9 @@ if __name__ == "__main__":
     password=None
 
     import sys
+    if "-h" in sys.argv:
+        print("Usage: python mpt.py [ -u openskyusername -p openskypassword -x long_start long_end -y lat_start lat_end -s your_lattitude your_longitude ]")
+        exit()
     if "-u" in sys.argv:
         username=sys.argv[sys.argv.index("-u")+1]
         password=sys.argv[sys.argv.index("-p")+1]
