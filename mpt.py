@@ -172,9 +172,10 @@ if __name__ == "__main__":
     lat_start  = 28.386568
     lat_end    = 28.671913
 
+    display_width = 60
+    display_height = 20
     you = None # Put your coords here to display X where you are
-    display = (0, 60, 0, 20)
-
+        
     username=None
     password=None
 
@@ -193,8 +194,14 @@ if __name__ == "__main__":
         lat_end=float(sys.argv[sys.argv.index("-y")+2])
     if "-s" in sys.argv:
         you = (float(sys.argv[sys.argv.index("-s")+1]), float(sys.argv[sys.argv.index("-s")+2]))
+    if "--width" in sys.argv:
+        display_width = int(sys.argv[sys.argv.index("--width")+1])
+    if "--height" in sys.argv:
+        display_height = int(sys.argv[sys.argv.index("--height")+1])
 
+    display = (0, display_width, 0, display_height)
     bbox_world=(lat_start, lat_end, long_start, long_end) # lamin, lamax, lomin, lomax
+    
     print("Connecting to OpenSky API")
 
     api = None
