@@ -12,6 +12,8 @@ The -x, -y and -s arguments are all optional. By default, mpt will display plane
 
 -s lets you set a marker where you happen to be located. You will be displayed as an X on the map.
 
+You can set up a set of airports to monitor by adjusting the `airports` variable in `airports.py`.
+
 ##### dependencies
 
 * opensky_api
