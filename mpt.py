@@ -49,7 +49,7 @@ def print_display(bbox, points, labels, you=None, airports=None, time=None):
                         break
             for p in points:
                 if int(p[0][0]) == x and int(p[0][1]) == y:
-                    print(p[1], end='')
+                    print(index_adj(p[1]), end='')
                     printed=True
                     break
             if not printed:
@@ -59,7 +59,7 @@ def print_display(bbox, points, labels, you=None, airports=None, time=None):
 
         i = bbox[3] - bbox[2] - y
         if i < len(legend):
-            print(f" {i}: {legend[i]}")
+            print(f" {index_adj(i)}: {legend[i]}")
         elif i == len(legend) + 2:
             print(" ^")
         elif i == len(legend) + 3:
@@ -77,6 +77,16 @@ def print_display(bbox, points, labels, you=None, airports=None, time=None):
 
     print('-'*(bbox[1]-bbox[0]+3))
 
+def index_adj(index):
+    """Generates the characters from `c1` to `c2`, inclusive."""
+    if index in range(0, 10):
+        return chr(ord('0') + index)
+    elif index in range(10, 40):
+        return chr(ord('a') - 10 + index)
+    
+    return index
+        
+    
 def random_test():
     width = 80
     height = 20
@@ -153,19 +163,45 @@ def deg_to_cardinal(deg):
             return bounds[i][1]
 
 if __name__ == "__main__":
-    bbox_world=(28.386568,28.671913,-81.506882,-81.112747) # lamin, lamax, lomin, lomax
-    airports=[((28.4311, -81.3083), "MCO"), ((28.5462, -81.3322), "ORL")]
-    you = None # Put your coords here to display X where you are
-    display = (0, 60, 0, 20)
+    import airports
+    airports=airports.airports#[((28.4311, -81.3083), "MCO"), ((28.5462, -81.3322), "ORL")]
 
+    #default lat/long
+    long_start = -81.506882
+    long_end   = -81.112747
+    lat_start  = 28.386568
+    lat_end    = 28.671913
+
+    display_width = 60
+    display_height = 20
+    you = None # Put your coords here to display X where you are
+        
     username=None
     password=None
 
     import sys
+    if "-h" in sys.argv:
+        print("Usage: python mpt.py [ -u openskyusername -p openskypassword -x long_start long_end -y lat_start lat_end -s your_lattitude your_longitude ]")
+        exit()
     if "-u" in sys.argv:
         username=sys.argv[sys.argv.index("-u")+1]
         password=sys.argv[sys.argv.index("-p")+1]
+    if "-x" in sys.argv:
+        long_start=float(sys.argv[sys.argv.index("-x")+1])
+        long_end=float(sys.argv[sys.argv.index("-x")+2])
+    if "-y" in sys.argv:
+        lat_start=float(sys.argv[sys.argv.index("-y")+1])
+        lat_end=float(sys.argv[sys.argv.index("-y")+2])
+    if "-s" in sys.argv:
+        you = (float(sys.argv[sys.argv.index("-s")+1]), float(sys.argv[sys.argv.index("-s")+2]))
+    if "--width" in sys.argv:
+        display_width = int(sys.argv[sys.argv.index("--width")+1])
+    if "--height" in sys.argv:
+        display_height = int(sys.argv[sys.argv.index("--height")+1])
 
+    display = (0, display_width, 0, display_height)
+    bbox_world=(lat_start, lat_end, long_start, long_end) # lamin, lamax, lomin, lomax
+    
     print("Connecting to OpenSky API")
 
     api = None
