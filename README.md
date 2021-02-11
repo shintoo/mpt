@@ -1,4 +1,4 @@
-### mpt - minimal plane tracker
+![mpt logo](img/mpt.jpg)
 
 ![gif of mpt running](img/animation.gif)
 
